@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Terminal Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Test</h1>
+    <div id="terminal">
+        <header>
+ _               _       ____            _    __       _ _       
+| |    ___  ___ ( )___  |  _ \ ___  _ __| |_ / _| ___ | (_) ___  
+| |   / _ \/ _ \|// __| | |_) / _ \| '__| __| |_ / _ \| | |/ _ \ 
+| |__|  __/ (_) | \__ \ |  __/ (_) | |  | |_|  _| (_) | | | (_) |
+|_____\___|\___/  |___/ |_|   \___/|_|   \__|_|  \___/|_|_|\___/ 
+/ ___|(_) |_ ___                                                 
+\___ \| | __/ _ \                                                
+ ___) | | ||  __/                                                
+|____/|_|\__\___|                 
+        </header>
+        <div id="output">
+            <div class="response">Welcome to my interactive terminal portfolio. Type 'help' to see available commands.
+            </div>
+        </div>
+    </div>
+    <div id="input-container">
+        <div id="prompt">visitor@portfolio:~$</div>
+        <input type="text" id="input" autocomplete="off" autofocus>
+    </div>
+    <script src="script.js"></script>
 </body>
+
 </html>
