@@ -3,7 +3,7 @@ const portfolioData = {
     about: `
 Hi, I'm Leo. 
 
-I'm a curious and motivated I am a motivated and curious student excited to apply my technical and personal skills to real world projects. 
+I'm a curious and motivated student excited to apply my technical and personal skills to real world projects. 
 With a deep interest in computer science, I approach challenges analytically and enjoy using my logical problem-solving skills to design practical and elegant solutions.
 
 When I'm not coding, you can find me playing rugby, practicing Taekwondo or leading Cadets
