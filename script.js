@@ -216,6 +216,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const autoCompleteCommands = Object.keys(commands);
 
     inputElement.addEventListener('keydown', (e) => {
+        // if (e.key === 'Enter') {
+        //     e.preventDefault();
+
+        //     const inputValue = inputElement.value.trim();
+        //     if (!inputValue) return;
+
+        //     // Add to command history
+        //     commandHistory.push(inputValue);
+        //     historyIndex = commandHistory.length;
+
+        //     // Display command
+        //     const inputLine = document.createElement('div');
+        //     inputLine.className = 'input-line';
+
+        //     const promptElement = document.createElement('div');
+        //     promptElement.className = 'prompt';
+        //     promptElement.innerText = 'visitor@portfolio:~$';
+
+        //     const commandElement = document.createElement('div');
+        //     commandElement.className = 'command';
+        //     commandElement.innerText = inputValue;
+
+        //     inputLine.appendChild(promptElement);
+        //     inputLine.appendChild(commandElement);
+        //     outputElement.appendChild(inputLine);
+
+        //     // Process the command
+        //     const [cmd, ...args] = inputValue.split(' ');
+        //     const response = document.createElement('div');
+        //     response.className = 'response';
+
+        //     if (cmd in commands) {
+        //         response.innerHTML = commands[cmd](args) || '';
+        //     } else {
+        //         response.innerHTML = `Command not found: ${cmd}. Type 'help' for available commands.`;
+        //         response.classList.add('error');
+        //     }
+
+        //     outputElement.appendChild(response);
+        //     inputElement.value = '';
+
+        //     // Scroll to bottom
+        //     window.scrollTo(0, document.body.scrollHeight);
+        //     inputElement.scrollIntoView({
+        //         behavior: 'smooth'
+        //     });
+        // }
+
         if (e.key === 'Enter') {
             e.preventDefault();
 
@@ -226,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             commandHistory.push(inputValue);
             historyIndex = commandHistory.length;
 
-            // Display command
+            // --- Display the input line ---
             const inputLine = document.createElement('div');
             inputLine.className = 'input-line';
 
@@ -236,34 +284,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const commandElement = document.createElement('div');
             commandElement.className = 'command';
-            commandElement.innerText = inputValue;
+            commandElement.innerText = inputValue; // safe, user input
 
             inputLine.appendChild(promptElement);
             inputLine.appendChild(commandElement);
             outputElement.appendChild(inputLine);
 
-            // Process the command
+            // --- Process the command ---
             const [cmd, ...args] = inputValue.split(' ');
             const response = document.createElement('div');
             response.className = 'response';
 
             if (cmd in commands) {
-                response.innerHTML = commands[cmd](args) || '';
+                // Use innerHTML for HTML output from your commands
+                let commandOutput = commands[cmd](args) || '';
+            
+                // Replace line breaks with <br> so multi-line output looks like a terminal
+                commandOutput = commandOutput.replace(/\n/g, '<br>');
+
+                response.innerHTML = commandOutput;
             } else {
-                response.innerHTML = `Command not found: ${cmd}. Type 'help' for available commands.`;
+                // Error messages can also have HTML
+                response.innerHTML = `Command not found: <strong>${cmd}</strong>. Type 'help' for available commands.`;
                 response.classList.add('error');
             }
 
             outputElement.appendChild(response);
+
+            // Clear input
             inputElement.value = '';
 
             // Scroll to bottom
             window.scrollTo(0, document.body.scrollHeight);
-            inputElement.scrollIntoView({
-                behavior: 'smooth'
-            });
+            inputElement.scrollIntoView({ behavior: 'smooth' });
         }
-
         // Up arrow - previous command
         else if (e.key === 'ArrowUp') {
             if (historyIndex > 0) {
@@ -330,9 +384,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     bubbles: true
                 });
                 inputElement.dispatchEvent(event);
-            }, 500);
+            }, 100);
         }
     }
 
-    setTimeout(typeIntro, 1000);
+    setTimeout(typeIntro, 500);
 });
