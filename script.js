@@ -8,9 +8,6 @@ With a deep interest in computer science, I approach challenges analytically and
 
 When I'm not coding, you can find me playing rugby, practicing Taekwondo or leading Cadets
 (but usually doing maths homework) 
-
-I'm having issues with my Linkedin currently, so you can read a back up of the posts on my github at https://github.com/yamoca/Linkedin-Posts-Backup
-
 `,
 
     skills: [{
@@ -26,16 +23,31 @@ I'm having issues with my Linkedin currently, so you can read a back up of the p
     projects: [{
         title: "Bloop",
         description: `A short puzzle video game created for black and white jam #8. 
-        I did the programming, art and gamedesign myself, and was voted 8th in originality out of 350 games`, 
+- I did the programming, art and gamedesign myself, and was voted 8th in originality out of 350 games`, 
         tech: "C#, Unity, Aseprite",
-        link: "https://yakondu.itch.io/bloop"
+        link: "<a href='https://yamoca.itch.io/bloop' target='_blank'>yamoca.itch.io/bloop</a>"
     },
     {
         title: "Brainf*ck interpreter",
-        description: `Designed and implemented a simple interpreter for the esoteric Brainf*ck programming language.
-        Simulated memory, pointers and implemented control flow logic`, 
+        description: `-Designed and implemented a simple interpreter for the esoteric Brainf*ck programming language.
+- Simulated memory, pointers and implemented control flow logic`, 
         tech: "Python",
-        link: "#dataviz-dashboard"
+        link: "NEED TO UPDATE GITHUB"
+    },
+    {
+        title: "Latin Flashcard App (in progress)",
+        description: `Developing a flashcard application to help my own Latin studies, as well as other school pupils.
+
+- What makes it different: Latin, like many languages, has a complex system of declensions and conjugations, and I am developing a system to programmatically generate families of words to help students with their grammar, not just their vocabulary.
+
+- I've enjoyed designing and iterating the database schemas to effectively relate the grouped data together
+
+- Learned much about <strong>webserver architecture</strong> and <strong>API</strong> design by focussing on the backend first
+
+- Explored many different technologies and stacks to find the best approach, balancing learning with making progress`,
+
+        tech: "Python, sqlite, Rust, HTMX, Askama, Axum",
+        link: "As the project has gone through many iterations (and my git skills were poor - I probably should have used branches!), the code is scattered across various repositories. Anything in my github profile with 'flashcards' or 'latin' in the repo name will be related."
     }
     ],
 
@@ -43,12 +55,30 @@ I'm having issues with my Linkedin currently, so you can read a back up of the p
         position: "Work Experience Participant",
         company: "MBDA",
         period: "February 2025",
+        description: `Completed a one-week work experience placement at MBDA, a leading defence company.
+
+- Designed a weapon system to neutralise an enemy satellite with the key constraint of creating zero space debris, winning the <strong>award for the best group project</strong>.
+
+- Engaged with a variety of presentations from different areas of the business including <strong>system design</strong>, <strong>cybersecurity</strong>, <strong>computer vision</strong> and <strong>machine learning</strong>, and an eye opening session on how to think innovatively.`
+    },
+    {
+        position: "Summer Programme",
+        company: "Palantir Technologies",
+        period: "August 2025",
+        description: `Selected from <strong>over 1000 applicants</strong> to attended a week-long summer programme at Palantir Technologies.
+
+- Designed and implemented ETL pipelines on large datasets in Palantir's <strong>Pipeline Builder</strong> to prepare the data for analysis in <strong>Contour</strong>.
+
+- Used <strong>Palantir Foundry</strong> and <strong>Typescript</strong> to create a dashboard displaying key information about potential threats posed by different viruses as well as the status of the supply chains for various vaccines using the transformed datasets.
+
+- Engaged in discussions surrounding the ethics of privacy and security and how companies can collaborate with governments to tackle global issues.`
     }
     ],
         
     contact: {
         email: "leojwgulliver@gmail.com",
-        github: "github.com/yamoca",
+        github: "<a href='https://github.com/yamoca'>github.com/yamoca</a>",
+        linkedin: "<a href='https://linkedin.com/in/leo-gulliver'>linkedin.com/in/leo-gulliver</a>"
     }
 };
 
@@ -69,6 +99,7 @@ Available commands:
   echo [text] - Display the provided text
   ls          - List all sections
   cat [file]  - View a specific section
+  cd [dir]    - Change directory 
   `;
     },
 
@@ -90,8 +121,8 @@ Available commands:
         portfolioData.projects.forEach((project, index) => {
             output += `【 ${project.title} 】\n`;
             output += `${project.description}\n`;
-            output += `Technologies: ${project.tech}\n`;
-            output += `Link: ${project.link}\n\n`;
+            output += `<strong>Technologies</strong>: ${project.tech}\n`;
+            output += `<strong>Link</strong>: ${project.link}\n\n`;
         });
         return output;
     },
@@ -106,15 +137,6 @@ Available commands:
         return output;
     },
 
-    education: () => {
-        let output = "Education:\n\n";
-        portfolioData.education.forEach(edu => {
-            output += `${edu.degree}\n`;
-            output += `${edu.institution}, ${edu.year}\n\n`;
-        });
-        return output;
-    },
-
     contact: () => {
         const contact = portfolioData.contact;
         return `
@@ -123,7 +145,6 @@ Contact Information:
 Email   : ${contact.email}
 LinkedIn: ${contact.linkedin}
 GitHub  : ${contact.github}
-Twitter : ${contact.twitter}
 `;
     },
 
@@ -136,16 +157,28 @@ Twitter : ${contact.twitter}
         return "Available sections:\n\nabout.txt\nskills.txt\nprojects.txt\nexperience.txt\neducation.txt\ncontact.txt";
     },
 
+    cd: (args) => {
+        if (!args || args.length === 0) {
+            return "\n";
+        }
+        else if (args[0] === "..") {
+            return "<span class=\"error\">Are you trying to leave? There's no escaping my portfolio! \n</span>";
+        }
+        else {
+            return "<span class=\"error\">Where do you think you're going! \n</span>";
+        }
+    },
+
     cat: (args) => {
         if (!args || args.length === 0) {
-            return "Usage: cat [filename]";
+            return "<span class=\"error\">Usage: cat [filename]</span>";
         }
 
         const file = args[0].toLowerCase().replace('.txt', '');
         if (['about', 'skills', 'projects', 'experience', 'education', 'contact'].includes(file)) {
             return commands[file]();
         } else {
-            return `File not found: ${args[0]}`;
+            return `<span class="error">File not found: ${args[0]}</span>`;
         }
     },
 
@@ -198,7 +231,7 @@ Twitter : ${contact.twitter}
                 return "Theme changed to Light";
 
             default:
-                return `Unknown theme: ${theme}. Available themes: matrix, ubuntu, midnight, light`;
+                return `<span class="error">Unknown theme: ${theme}. Available themes: matrix, ubuntu, midnight, light</span>`;
         }
     }
 };
@@ -216,54 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const autoCompleteCommands = Object.keys(commands);
 
     inputElement.addEventListener('keydown', (e) => {
-        // if (e.key === 'Enter') {
-        //     e.preventDefault();
-
-        //     const inputValue = inputElement.value.trim();
-        //     if (!inputValue) return;
-
-        //     // Add to command history
-        //     commandHistory.push(inputValue);
-        //     historyIndex = commandHistory.length;
-
-        //     // Display command
-        //     const inputLine = document.createElement('div');
-        //     inputLine.className = 'input-line';
-
-        //     const promptElement = document.createElement('div');
-        //     promptElement.className = 'prompt';
-        //     promptElement.innerText = 'visitor@portfolio:~$';
-
-        //     const commandElement = document.createElement('div');
-        //     commandElement.className = 'command';
-        //     commandElement.innerText = inputValue;
-
-        //     inputLine.appendChild(promptElement);
-        //     inputLine.appendChild(commandElement);
-        //     outputElement.appendChild(inputLine);
-
-        //     // Process the command
-        //     const [cmd, ...args] = inputValue.split(' ');
-        //     const response = document.createElement('div');
-        //     response.className = 'response';
-
-        //     if (cmd in commands) {
-        //         response.innerHTML = commands[cmd](args) || '';
-        //     } else {
-        //         response.innerHTML = `Command not found: ${cmd}. Type 'help' for available commands.`;
-        //         response.classList.add('error');
-        //     }
-
-        //     outputElement.appendChild(response);
-        //     inputElement.value = '';
-
-        //     // Scroll to bottom
-        //     window.scrollTo(0, document.body.scrollHeight);
-        //     inputElement.scrollIntoView({
-        //         behavior: 'smooth'
-        //     });
-        // }
-
         if (e.key === 'Enter') {
             e.preventDefault();
 
@@ -315,8 +300,10 @@ document.addEventListener('DOMContentLoaded', () => {
             inputElement.value = '';
 
             // Scroll to bottom
-            window.scrollTo(0, document.body.scrollHeight);
-            inputElement.scrollIntoView({ behavior: 'smooth' });
+            // window.scrollTo(0, document.body.scrollHeight);
+            // inputElement.scrollIntoView({ behavior: 'smooth' });
+            // outputElement.scrollTop = outputElement.scrollHeight;
+            response.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
         // Up arrow - previous command
         else if (e.key === 'ArrowUp') {
