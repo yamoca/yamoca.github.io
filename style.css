@@ -356,7 +356,10 @@ a:hover {
 @media (max-width: 768px) {
     body {
         padding: 10px;
-
+        background-image: none;
+    }
+    .crt {
+        background-image: none;
     }
 
     #input-container {
