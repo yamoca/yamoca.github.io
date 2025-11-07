@@ -100,6 +100,7 @@ Available commands:
   ls          - List all sections
   cat [file]  - View a specific section
   cd [dir]    - Change directory 
+  vim         - a text editor... enter if you dare 
   `;
     },
 
@@ -189,6 +190,16 @@ GitHub  : ${contact.github}
         return args.join(" ");
     },
 
+    vim: (args) => {
+        if (!args || args.length === 0) {
+            return "Be careful, if you enter vim, make sure you know how to exit! To proceed, type 'vim --force'";
+        } else if (args[0].toLowerCase() === '--force') {
+            window.location.href = 'vim.html';
+        }
+
+
+    },
+
     theme: (args) => {
         if (!args || args.length === 0) {
             return "Usage: theme [name]\nAvailable themes: matrix, ubuntu, midnight, light";
@@ -240,6 +251,7 @@ GitHub  : ${contact.github}
 document.addEventListener('DOMContentLoaded', () => {
     const outputElement = document.getElementById('output');
     const inputElement = document.getElementById('input');
+    const currentPromptElement = document.getElementById('inputholder');
 
     // Command history functionality
     let commandHistory = [];
@@ -252,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') {
             e.preventDefault();
 
-            const inputValue = inputElement.value.trim();
+            const inputValue = inputElement.value.trim().toLowerCase();
             if (!inputValue) return;
 
             // Add to command history
@@ -295,15 +307,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             outputElement.appendChild(response);
-
+            outputElement.appendChild(currentPromptElement);
+            document.getElementById('input').focus();
             // Clear input
             inputElement.value = '';
 
-            // Scroll to bottom
-            // window.scrollTo(0, document.body.scrollHeight);
-            // inputElement.scrollIntoView({ behavior: 'smooth' });
-            // outputElement.scrollTop = outputElement.scrollHeight;
-            response.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            // only scroll if at bottom
+            const atBottom = outputElement.scrollTop + outputElement.clientHeight >= outputElement.scrollHeight - 10;
+            if (atBottom) {
+                outputElement.scrollTo({
+                top: outputElement.scrollHeight,
+                behavior: 'smooth'
+            });
+}
         }
         // Up arrow - previous command
         else if (e.key === 'ArrowUp') {

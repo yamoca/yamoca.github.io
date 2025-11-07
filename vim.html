@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('input');
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    const command = input.value;
+                    input.value = '';
+                    if (command == ":q" || command == ":q!" || command == ":wq" || command == ":quit" || command == "quit") {
+                        // window.location.href = "index.html";
+                        alert("Error");
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="terminal" class="crt">
+        <div id="vim-holder"></div>
+    </div>
+    <input type="text" id="input" style="position: absolute; bottom: 100px; left: 25vw" autofocus>
+</body>
+
+</html>
